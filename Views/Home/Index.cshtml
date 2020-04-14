@@ -1,0 +1,51 @@
+﻿@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Home Page";
+
+}
+
+    <div>
+        @Html.EJS().Schedule("schedule").Width("100%").Height("550px").EditorTemplate("#EventEditorTemplate").PopupOpen("onPopupOpen").SelectedDate(new DateTime(2018, 4, 22)).EventSettings(es => es.DataSource(dataManager =>{dataManager.Url("/Home/LoadData").CrudUrl("/Home/UpdateData").CrossDomain(true).Adaptor("UrlAdaptor");})).Render()
+    </div>
+<script id="EventEditorTemplate" type="text/template">
+    <table class="custom-event-editor" width="100%" cellpadding="5">
+        <tbody>
+            <tr>
+                <td class="e-textlabel">Summary</td>
+                <td colspan="4">
+                    <input id="Subject" class="e-field e-input" type="text" value="" name="Subject" style="width: 100%" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">From</td>
+                <td colspan="4">
+                    <input id="StartTime" class="e-field" type="text" name="StartTime" />
+                </td>
+            </tr>
+            <tr>
+                <td class="e-textlabel">To</td>
+                <td colspan="4">
+                    <input id="EndTime" class="e-field" type="text" name="EndTime" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+<script type="text/javascript">
+    function onPopupOpen(args) {
+        if (args.type === 'Editor') {
+            var startElement = args.element.querySelector('#StartTime');
+            if (!startElement.classList.contains('e-datetimepicker')) {
+                new ej.calendars.DateTimePicker({ value: new Date(startElement.value) || new Date() }, startElement);
+            }
+            var endElement = args.element.querySelector('#EndTime');
+            if (!endElement.classList.contains('e-datetimepicker')) {
+                new ej.calendars.DateTimePicker({ value: new Date(endElement.value) || new Date() }, endElement);
+            }
+        }
+    }
+</script>
